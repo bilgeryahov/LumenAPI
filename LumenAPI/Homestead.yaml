@@ -11,7 +11,7 @@ folders:
         to: /home/vagrant/code
 sites:
     -
-        map: homestead.test
+        map: lumenapi.com
         to: /home/vagrant/code/public
 databases:
     - homestead
