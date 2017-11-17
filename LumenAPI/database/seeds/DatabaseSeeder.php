@@ -4,7 +4,6 @@ use App\Teacher;
 use App\Student;
 use App\Course;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
 
 class DatabaseSeeder extends Seeder {
 
