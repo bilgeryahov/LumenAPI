@@ -31,12 +31,12 @@ $factory->define(App\Student::class, function($faker){
 	];
 });
 
-$factory->define(App\Teacher::class, function($faker){
+$factory->define(App\Course::class, function($faker){
 
 	return [
-		'title' => $faker->sentece(4),
+		'title' => $faker->sentence(4),
 		'description' => $faker->paragraph(4),
 		'value' => $faker->numberBetween(1, 4),
-		'teacher_id' => $faker->mt_rand(1, 50)
+		'teacher_id' => mt_rand(1, 50)
 	];
 });
