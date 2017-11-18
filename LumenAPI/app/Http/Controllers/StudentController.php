@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 
 class StudentController extends Controller{
 
+	private $rules = [
+		'name' => 'required',
+		'phone' => 'required|numeric',
+		'address' => 'required',
+		'career' => 'required|in:engineering,math,physics'
+	];
+
 	public function index(){
 
 		$students = Student::All();
@@ -28,14 +35,7 @@ class StudentController extends Controller{
 
 	public function store(Request $request){
 
-		$rules = [
-			'name' => 'required',
-			'phone' => 'required|numeric',
-			'address' => 'required',
-			'career' => 'required|in:engineering,math,physics'
-		];
-
-		$this->validate($request, $rules);
+		$this->validateRequest($request);
 
 		// If we successfully pass validation.
 		$student = Student::create($request->all());
@@ -44,13 +44,36 @@ class StudentController extends Controller{
 		created" , 201);
 	}
 
-	public function update(){
+	public function update(Request $request, $student_id){
 
-		return __METHOD__;
+		$student = Student::find($student_id);
+
+		if($student){
+
+			$this->validateRequest($request);
+
+			// If we successfully pass validation.
+			$student->name = $request->get('name');
+			$student->phone = $request->get('phone');
+			$student->address = $request->get('address');
+			$student->career = $request->get('career');
+
+			$student->save();
+
+			return $this->createSuccessResponse("Student with id {$student->id} 
+			has been successfully modified", 204);
+		}
+
+		return $this->createErrorResponse("The student with id {$student_id} does not exist", 404);
 	}
 
 	public function destroy(){
 
 		return __METHOD__;
+	}
+
+	private function validateRequest($request){
+
+		$this->validate($request, $this->rules);
 	}
 }

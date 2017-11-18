@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 
 class TeacherController extends Controller{
 
+	private $rules = [
+		'name' => 'required',
+		'phone' => 'required|numeric',
+		'address' => 'required',
+		'profession' => 'required|in:engineering,math,physics'
+	];
+
 	public function index(){
 
 		$teachers = Teacher::All();
@@ -28,14 +35,7 @@ class TeacherController extends Controller{
 
 	public function store(Request $request){
 
-		$rules = [
-			'name' => 'required',
-			'phone' => 'required|numeric',
-			'address' => 'required',
-			'profession' => 'required|in:engineering,math,physics'
-		];
-
-		$this->validate($request, $rules);
+		$this->validateRequest($request);
 
 		// If we successfully pass validation.
 		$teacher = Teacher::create($request->all());
@@ -44,13 +44,36 @@ class TeacherController extends Controller{
 		created" , 201);
 	}
 
-	public function update(){
+	public function update(Request $request, $teacher_id){
 
-		return __METHOD__;
+		$teacher = Teacher::find($teacher_id);
+
+		if($teacher){
+
+			$this->validateRequest($request);
+
+			// If we successfully pass validation.
+			$teacher->name = $request->get('name');
+			$teacher->phone = $request->get('phone');
+			$teacher->address = $request->get('address');
+			$teacher->profession = $request->get('profession');
+
+			$teacher->save();
+
+			return $this->createSuccessResponse("Teacher with id {$teacher->id} 
+			has been successfully modified", 204);
+		}
+
+		return $this->createErrorResponse("The teacher with id {$teacher_id} does not exist", 404);
 	}
 
 	public function destroy(){
 
 		return __METHOD__;
+	}
+
+	private function validateRequest($request){
+
+		$this->validate($request, $this->rules);
 	}
 }
