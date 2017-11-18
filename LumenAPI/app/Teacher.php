@@ -9,6 +9,6 @@ class Teacher extends Model{
 
 	public function courses(){
 
-		return $this->hasMany('App\Courses');
+		return $this->hasMany('App\Course');
 	}
 }
