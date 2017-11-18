@@ -14,6 +14,11 @@ class TeacherController extends Controller{
 		'profession' => 'required|in:engineering,math,physics'
 	];
 
+	public function __construct(){
+
+		$this->middleware('oauth', ['except' => ['index', 'show']]);
+	}
+
 	public function index(){
 
 		$teachers = Teacher::All();

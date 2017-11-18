@@ -14,6 +14,11 @@ class StudentController extends Controller{
 		'career' => 'required|in:engineering,math,physics'
 	];
 
+	public function __construct(){
+
+		$this->middleware('oauth', ['except' => ['index', 'show']]);
+	}
+
 	public function index(){
 
 		$students = Student::All();

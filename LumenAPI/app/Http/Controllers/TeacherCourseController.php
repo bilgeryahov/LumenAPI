@@ -13,6 +13,11 @@ class TeacherCourseController extends Controller{
 		'value' => 'required|numeric'
 	];
 
+	public function __construct(){
+
+		$this->middleware('oauth', ['except' => ['index']]);
+	}
+
 	public function index($teacher_id){
 
 		$teacher = Teacher::find($teacher_id);

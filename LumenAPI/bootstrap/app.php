@@ -66,9 +66,9 @@ $app->singleton(
 	 \LucaDegasperi\OAuth2Server\Middleware\OAuthExceptionHandlerMiddleware::class
  ]);
 
-// $app->routeMiddleware([
-
-// ]);
+ $app->routeMiddleware([
+	'oauth' => \LucaDegasperi\OAuth2Server\Middleware\OAuthMiddleware::class
+ ]);
 
 /*
 |--------------------------------------------------------------------------
