@@ -67,9 +67,25 @@ class TeacherController extends Controller{
 		return $this->createErrorResponse("The teacher with id {$teacher_id} does not exist", 404);
 	}
 
-	public function destroy(){
+	public function destroy($teacher_id){
 
-		return __METHOD__;
+		$teacher = Teacher::find($teacher_id);
+
+		if($teacher){
+
+			$courses = $teacher->courses;
+			if(sizeof($courses) > 0){
+
+				return $this->createErrorResponse('You cannot remove teacher with active courses. Remove the 
+				courses first.', 409);
+			}
+
+			$teacher->delete();
+			return $this->createSuccessResponse("Teacher with id {$teacher_id} has been successfully 
+			 deleted", 204);
+		}
+
+		return $this->createErrorResponse("The teacher with id {$teacher_id} does not exist", 404);
 	}
 
 	private function validateRequest($request){
