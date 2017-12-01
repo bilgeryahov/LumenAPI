@@ -15,6 +15,10 @@ $app->get('/', function() use ($app){
     return $app->welcome();
 });
 
+$app->get('/iamcool', function() use ($app){
+	return "I am Cool!";
+});
+
 $app->get('/teachers', 'TeacherController@index');
 $app->post('/teachers', 'TeacherController@store');
 $app->get('/teachers/{teachers}', 'TeacherController@show');
